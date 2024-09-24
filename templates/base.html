@@ -3,46 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio - CriptoPlataforma</title>
+    <title>{% block title %}Crypto Trading App{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
 </head>
 <body>
     <header>
-        <h1>Bienvenido a CriptoPlataforma</h1>
+        <h1>Dinastia Cripto</h1>
+        <!-- Navbar -->
         <nav>
-            <a href="{{ url_for('register') }}" class="btn">Sign in</a>
-            <a href="{{ url_for('login') }}" class="btn">Log in</a>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('cripto') }}">Cripto</a></li>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('spot') }}">Spot</a></li>
+                <li><a href="{{ url_for('trade') }}">Trade</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li>
+                    <a href="{{ url_for('register') }}">
+                        <!-- Aquí va el logo -->
+                        <img src="{{ url_for('static', filename='register.png') }}" alt="Logo" class="logo"> Register
+                    </a>
+                </li>
+            </ul>
         </nav>
     </header>
 
-    <!-- Inicio del Widget de Coinlib -->
-    <div style="height:5979px; background-color: #1D2330; overflow:hidden; box-sizing: border-box; border: 1px solid #282E3B; border-radius: 4px; text-align: right; line-height:14px; font-size: 12px; font-feature-settings: normal; text-size-adjust: 100%; box-shadow: inset 0 -20px 0 0 #262B38; padding: 0px; margin: 0px; width: 100%;">
-        <div style="height:5959px; padding:0px; margin:0px; width: 100%;">
-            <iframe src="https://widget.coinlib.io/widget?type=full_v2&theme=dark&cnt=100&pref_coin_id=1505&graph=yes" width="100%" height="5955px" scrolling="auto" marginwidth="0" marginheight="0" frameborder="0" border="0" style="border:0;margin:0;padding:0;"></iframe>
-        </div>
-        <div style="color: #626B7F; line-height: 14px; font-weight: 400; font-size: 11px; box-sizing: border-box; padding: 2px 6px; width: 100%; font-family: Verdana, Tahoma, Arial, sans-serif;">
-            <a href="https://coinlib.io" target="_blank" style="font-weight: 500; color: #626B7F; text-decoration:none; font-size:11px">Cryptocurrency Prices</a>&nbsp;by Coinlib
-        </div>
-    </div>
-    <!-- Fin del Widget de Coinlib -->
-
-    <main>
-        <section>
-            <h2>Intercambia criptomonedas de forma segura</h2>
-            <p>Accede a múltiples criptomonedas con facilidad y seguridad.</p>
-        </section>
-        <section>
-            <h2>Características Principales</h2>
-            <ul>
-                <li>Seguridad garantizada</li>
-                <li>Interfaz intuitiva</li>
-                <li>Acceso a las mejores criptomonedas</li>
-            </ul>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 CriptoPlataforma</p>
-    </footer>
+    {% block body %}
+    {% endblock %}
 </body>
 </html>

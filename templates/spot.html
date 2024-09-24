@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Crypto Exchange</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .buy-sell-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .buy-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .sell-button {
+            background-color: #f44336;
+            color: white;
+        }
+        .balance-info {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Buy/Sell Crypto</h1>
+        
+        <div class="form-group">
+            <label for="crypto-select">Select Cryptocurrency</label>
+            <select id="crypto-select">
+                <option value="btc">Bitcoin (BTC)</option>
+                <option value="eth">Ethereum (ETH)</option>
+                <option value="bnb">Binance Coin (BNB)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price (USDT)</label>
+            <input type="text" id="price" placeholder="e.g., 63850">
+        </div>
+
+        <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="text" id="amount" placeholder="e.g., 0.1 BTC">
+        </div>
+
+        <div class="buy-sell-buttons">
+            <button class="buy-button">Buy</button>
+            <button class="sell-button">Sell</button>
+        </div>
+
+        <div class="balance-info">
+            <p>Available Balance: 500 USDT</p>
+            <p>Available BTC: 0.5 BTC</p>
+        </div>
+    </div>
+
+</body>
+</html>

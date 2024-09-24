@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Cripto{% endblock %}
+
+{% block content %}
+<h1>Cripto Page</h1>
+<p>Here you can create your own cryptocurrency.</p>
+{% endblock %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Create Your Own Cryptocurrency</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .step {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .code-block {
+            background-color: #e7e7e7;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>How to Create Your Own Cryptocurrency: "Cripto"</h1>
+    
+    <div class="step">
+        <h2>Step 1: Set Up MetaMask</h2>
+        <p>MetaMask is a browser extension that acts as a bridge to the Ethereum network. Install it from the <a href="https://metamask.io/" target="_blank">MetaMask website</a> and set up your account.</p>
+    </div>
+
+    <div class="step">
+        <h2>Step 2: Write Your Token Contract</h2>
+        <p>We will use the Ethereum blockchain and Solidity language to write a smart contract for our token. Go to <a href="https://remix.ethereum.org/" target="_blank">Remix IDE</a> and create a new file with the following code:</p>
+        
+        <div class="code-block">
+            <pre>
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract CriptoToken {
+    string public name = "Cripto";
+    string public symbol = "CRP";
+    uint8 public decimals = 18;
+    uint256 public totalSupply = 1000000 * (10 ** uint256(decimals));
+
+    mapping(address => uint256) public balanceOf;
+    mapping(address => mapping(address => uint256)) public allowance;
+
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+
+    constructor() {
+        balanceOf[msg.sender] = totalSupply;
+    }
+
+    function transfer(address _to, uint256 _value) public returns (bool success) {
+        require(balanceOf[msg.sender] >= _value);
+        balanceOf[msg.sender] -= _value;
+        balanceOf[_to] += _value;
+        emit Transfer(msg.sender, _to, _value);
+        return true;
+    }
+
+    function approve(address _spender, uint256 _value) public returns (bool success) {
+        allowance[msg.sender][_spender] = _value;
+        emit Approval(msg.sender, _spender, _value);
+        return true;
+    }
+
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
+        require(_value <= balanceOf[_from]);
+        require(_value <= allowance[_from][msg.sender]);
+        balanceOf[_from] -= _value;
+        balanceOf[_to] += _value;
+        allowance[_from][msg.sender] -= _value;
+        emit Transfer(_from, _to, _value);
+        return true;
+    }
+}
+            </pre>
+        </div>
+
+        <p>This code defines a simple token called "Cripto" with the symbol "CRP" and a supply of 1 million tokens.</p>
+    </div>
+
+    <div class="step">
+        <h2>Step 3: Deploy Your Token on Ethereum</h2>
+        <p>Once you have written your token contract, deploy it using the Remix IDE. Here’s how:</p>
+        <ul>
+            <li>In Remix, compile your contract by clicking the “Solidity Compiler” tab and selecting your file.</li>
+            <li>Click "Deploy & Run Transactions". Make sure MetaMask is connected to Remix.</li>
+            <li>Deploy your token to the Ethereum test network (like Ropsten or Goerli) or the main Ethereum network.</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h2>Step 4: Interact with Your Token</h2>
+        <p>Once deployed, you can interact with your token using functions such as:</p>
+        <ul>
+            <li><strong>transfer:</strong> To send tokens to other addresses.</li>
+            <li><strong>approve:</strong> To approve an address to spend tokens on your behalf.</li>
+            <li><strong>transferFrom:</strong> To allow another address to spend your tokens.</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h2>Step 5: Add Your Token to MetaMask</h2>
+        <p>After deployment, you can add your new "Cripto" token to MetaMask by copying the contract address and using the “Add Token” feature in MetaMask.</p>
+    </div>
+
+    <div class="step">
+        <h2>Step 6: Use Your Token</h2>
+        <p>Your token is now live on the Ethereum network. You can transfer it to other users, integrate it with dApps, or even list it on decentralized exchanges (DEXs) like Uniswap.</p>
+    </div>
+
+</body>
+</html>

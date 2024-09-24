@@ -1,0 +1,8 @@
+1. Introducción a las criptomonedas
+La criptomoneda es un activo digital creado y gestionado mediante el uso de tecnología blockchain. Ethereum, por ejemplo, permite la creación de contratos inteligentes que pueden manejar criptomonedas personalizadas llamadas tokens.
+
+2. Requisitos previos:
+-Conocimientos básicos de programación en Solidity.
+-Instalación de MetaMask (para interactuar con Ethereum).
+-Uso de Remix IDE (para escribir y desplegar contratos inteligentes).
+-Conocimiento de la blockchain de Ethereum.
