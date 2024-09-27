@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Trading Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .message {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Crypto Trading Platform</h1>
+
+    <!-- Formulario para hacer trade -->
+    <form id="trade-form">
+        <h2>Realizar Trade</h2>
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="crypto">Criptomoneda:</label>
+        <input type="text" id="crypto" name="crypto" required>
+
+        <label for="amount">Cantidad:</label>
+        <input type="number" id="amount" name="amount" required>
+
+        <label for="price">Precio por unidad:</label>
+        <input type="number" id="price" name="price" required>
+
+        <label for="type">Tipo de operación:</label>
+        <select id="type" name="type">
+            <option value="buy">Comprar</option>
+            <option value="sell">Vender</option>
+        </select>
+
+        <button type="submit">Realizar Trade</button>
+    </form>
+
+    <div id="trade-message" class="message"></div>
+
+    <!-- Formulario para consultar el balance del usuario -->
+    <form id="balance-form">
+        <h2>Consultar Balance</h2>
+        <label for="balance-username">Usuario:</label>
+        <input type="text" id="balance-username" name="balance-username" required>
+        <button type="submit">Consultar Balance</button>
+    </form>
+
+    <div id="balance-result"></div>
+
+    <script>
+        // Función para realizar trade
+        document.getElementById('trade-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const tradeData = {
+                username: document.getElementById('username').value,
+                crypto: document.getElementById('crypto').value,
+                amount: document.getElementById('amount').value,
+                price: document.getElementById('price').value,
+                type: document.getElementById('type').value
+            };
+
+            try {
+                const response = await fetch('/api/trade', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify(tradeData)
+                });
+
+                const result = await response.json();
+                document.getElementById('trade-message').textContent = result.message;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        // Función para consultar el balance del usuario
+        document.getElementById('balance-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById('balance-username').value;
+
+            try {
+                const response = await fetch(`/api/balance/${username}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                const result = await response.json();
+                if (result.balance !== undefined) {
+                    document.getElementById('balance-result').textContent = `Balance: $${result.balance}`;
+                } else {
+                    document.getElementById('balance-result').textContent = result.message;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+
+</body>
+</html>

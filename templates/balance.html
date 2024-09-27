@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Balance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Consulta de Balance</h1>
+
+    <!-- Formulario para consultar el balance del usuario -->
+    <form id="balance-form">
+        <label for="balance-username">Usuario:</label>
+        <input type="text" id="balance-username" name="balance-username" required>
+        <button type="submit">Consultar Balance</button>
+    </form>
+
+    <div id="balance-result"></div>
+
+    <script>
+        // Función para consultar el balance del usuario
+        document.getElementById('balance-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById('balance-username').value;
+
+            try {
+                const response = await fetch(`/api/balance/${username}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                const result = await response.json();
+                if (result.balance !== undefined) {
+                    document.getElementById('balance-result').textContent = `Balance: $${result.balance}`;
+                } else {
+                    document.getElementById('balance-result').textContent = result.message;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+
+</body>
+</html>

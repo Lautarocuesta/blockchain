@@ -91,15 +91,71 @@
         </div>
 
         <div class="buy-sell-buttons">
-            <button class="buy-button">Buy</button>
-            <button class="sell-button">Sell</button>
+            <button class="buy-button" onclick="buyCrypto()">Buy</button>
+            <button class="sell-button" onclick="sellCrypto()">Sell</button>
         </div>
 
         <div class="balance-info">
-            <p>Available Balance: 500 USDT</p>
-            <p>Available BTC: 0.5 BTC</p>
+            <p id="balance-usdt">Available Balance: 500 USDT</p>
+            <p id="balance-btc">Available BTC: 0.5 BTC</p>
         </div>
     </div>
+
+    <script>
+        let balanceUSDT = 500;
+        let balanceBTC = 0.5;
+
+        function updateBalances() {
+            document.getElementById('balance-usdt').innerText = `Available Balance: ${balanceUSDT.toFixed(2)} USDT`;
+            document.getElementById('balance-btc').innerText = `Available BTC: ${balanceBTC.toFixed(2)} BTC`;
+        }
+
+        function buyCrypto() {
+            const price = parseFloat(document.getElementById('price').value);
+            const amount = parseFloat(document.getElementById('amount').value);
+            
+            if (isNaN(price) || isNaN(amount) || price <= 0 || amount <= 0) {
+                alert('Please enter valid price and amount.');
+                return;
+            }
+
+            const cost = price * amount;
+
+            if (cost > balanceUSDT) {
+                alert('Not enough USDT balance to complete the purchase.');
+                return;
+            }
+
+            balanceUSDT -= cost;
+            balanceBTC += amount;
+
+            updateBalances();
+            alert('Purchase successful!');
+        }
+
+        function sellCrypto() {
+            const price = parseFloat(document.getElementById('price').value);
+            const amount = parseFloat(document.getElementById('amount').value);
+
+            if (isNaN(price) || isNaN(amount) || price <= 0 || amount <= 0) {
+                alert('Please enter valid price and amount.');
+                return;
+            }
+
+            if (amount > balanceBTC) {
+                alert('Not enough BTC balance to complete the sale.');
+                return;
+            }
+
+            const revenue = price * amount;
+
+            balanceUSDT += revenue;
+            balanceBTC -= amount;
+
+            updateBalances();
+            alert('Sale successful!');
+        }
+    </script>
 
 </body>
 </html>
