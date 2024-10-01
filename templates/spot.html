@@ -4,12 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Crypto Exchange</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
             background-color: #f0f2f5;
-            margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,39 +23,7 @@
         h1 {
             text-align: center;
             color: #333;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .buy-sell-buttons {
-            display: flex;
-            justify-content: space-between;
-        }
-        button {
-            width: 48%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .buy-button {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .sell-button {
-            background-color: #f44336;
-            color: white;
+            margin-bottom: 20px;
         }
         .balance-info {
             text-align: center;
@@ -73,7 +39,7 @@
         
         <div class="form-group">
             <label for="crypto-select">Select Cryptocurrency</label>
-            <select id="crypto-select">
+            <select class="form-control" id="crypto-select">
                 <option value="btc">Bitcoin (BTC)</option>
                 <option value="eth">Ethereum (ETH)</option>
                 <option value="bnb">Binance Coin (BNB)</option>
@@ -82,17 +48,17 @@
 
         <div class="form-group">
             <label for="price">Price (USDT)</label>
-            <input type="text" id="price" placeholder="e.g., 63850">
+            <input type="text" class="form-control" id="price" placeholder="e.g., 63850" readonly>
         </div>
 
         <div class="form-group">
             <label for="amount">Amount</label>
-            <input type="text" id="amount" placeholder="e.g., 0.1 BTC">
+            <input type="text" class="form-control" id="amount" placeholder="e.g., 0.1 BTC">
         </div>
 
-        <div class="buy-sell-buttons">
-            <button class="buy-button" onclick="buyCrypto()">Buy</button>
-            <button class="sell-button" onclick="sellCrypto()">Sell</button>
+        <div class="form-group text-center">
+            <button class="btn btn-success" onclick="buyCrypto()">Buy</button>
+            <button class="btn btn-danger" onclick="sellCrypto()">Sell</button>
         </div>
 
         <div class="balance-info">
@@ -104,6 +70,18 @@
     <script>
         let balanceUSDT = 500;
         let balanceBTC = 0.5;
+        let currentBTCPrice = 0;
+
+        async function fetchPrices() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,tether&vs_currencies=usd');
+                const data = await response.json();
+                currentBTCPrice = data.bitcoin.usd;
+                document.getElementById('price').value = currentBTCPrice.toFixed(2);
+            } catch (error) {
+                console.error('Error fetching prices:', error);
+            }
+        }
 
         function updateBalances() {
             document.getElementById('balance-usdt').innerText = `Available Balance: ${balanceUSDT.toFixed(2)} USDT`;
@@ -111,11 +89,11 @@
         }
 
         function buyCrypto() {
-            const price = parseFloat(document.getElementById('price').value);
+            const price = currentBTCPrice; // Get current BTC price
             const amount = parseFloat(document.getElementById('amount').value);
             
-            if (isNaN(price) || isNaN(amount) || price <= 0 || amount <= 0) {
-                alert('Please enter valid price and amount.');
+            if (isNaN(amount) || amount <= 0) {
+                alert('Please enter a valid amount.');
                 return;
             }
 
@@ -134,11 +112,11 @@
         }
 
         function sellCrypto() {
-            const price = parseFloat(document.getElementById('price').value);
+            const price = currentBTCPrice; // Get current BTC price
             const amount = parseFloat(document.getElementById('amount').value);
 
-            if (isNaN(price) || isNaN(amount) || price <= 0 || amount <= 0) {
-                alert('Please enter valid price and amount.');
+            if (isNaN(amount) || amount <= 0) {
+                alert('Please enter a valid amount.');
                 return;
             }
 
@@ -155,7 +133,13 @@
             updateBalances();
             alert('Sale successful!');
         }
+
+        // Fetch prices when the page loads
+        window.onload = fetchPrices;
     </script>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

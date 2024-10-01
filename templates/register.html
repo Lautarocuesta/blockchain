@@ -1,19 +1,58 @@
 {% extends "base.html" %}
-{%block body%}
-<div class="form-container">
-    <h2>Regístrate</h2>
-    <form action="{{ url_for('register') }}" method="POST">
-        <label for="nombres">Usuario:</label>
-        <input type="text" name="nombres" required>
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" required>
-        <button type="submit" class="btn-primary">Registrarse</button>
-    </form>
+{% block body %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card mt-5 shadow-lg" style="border-radius: 20px; background-color: black; border: 2px solid red;">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4" style="color: white;">Regístrate</h2>
+                    <form action="{{ url_for('register') }}" method="POST">
+                        <div class="form-group mb-4">
+                            <label for="nombres" class="form-label" style="color: red;">Usuario:</label>
+                            <input type="text" class="form-control" name="nombres" id="nombres" placeholder="Ingresa tu usuario" required style="border: 1px solid red; border-radius: 10px;">
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="password" class="form-label" style="color: red;">Contraseña:</label>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Ingresa tu contraseña" required style="border: 1px solid red; border-radius: 10px;">
+                        </div>
+                        <button type="submit" class="btn w-100" style="background-color: red; color: white; border-radius: 10px; padding: 10px; font-size: 18px;">Registrarse</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
+<style>
+    body {
+        background: black; /* Fondo negro */
+        font-family: 'Arial', sans-serif;
+    }
 
-  
-    
-    
- 
+    .form-control {
+        box-shadow: none;
+        padding: 12px;
+        font-size: 16px;
+        color: white; /* Texto blanco */
+        background-color: transparent; /* Fondo transparente */
+    }
+
+    .form-control:focus {
+        box-shadow: 0 0 5px rgba(255, 0, 0, 0.3); /* Resaltado rojo */
+        border-color: red; /* Borde rojo */
+    }
+
+    .card {
+        border: none;
+    }
+
+    .btn:hover {
+        background-color: #ff4d4d; /* Color más claro al pasar el mouse */
+    }
+
+    h2 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+    }
+</style>
 {% endblock %}

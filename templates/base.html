@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Dinastia Cripto</h1>
+        <h1>Dinastía Cripto</h1>
         <!-- Navbar -->
         <nav>
             <ul>
@@ -21,14 +21,21 @@
                 <li>
                     <a href="{{ url_for('register') }}">
                         <!-- Aquí va el logo -->
-                        <img src="{{ url_for('static', filename='register.png') }}" alt="Logo" class="logo"> Register
+                        <img src="{{ url_for('static', filename='img/register.png') }}" alt="Logo de registro" class="logo"> Register
                     </a>
                 </li>
             </ul>
         </nav>
     </header>
 
-    {% block body %}
-    {% endblock %}
+    <main>
+        {% block body %}
+        <!-- Contenido de la página irá aquí -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Dinastía Cripto. Todos los derechos reservados.</p>
+    </footer>
 </body>
 </html>

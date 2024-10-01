@@ -6,40 +6,70 @@
     <title>Crypto Trading Platform</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
         }
         h1 {
             text-align: center;
+            color: #007bff;
+            font-size: 2.5rem;
+            margin: 20px 0;
         }
         form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
+            max-width: 400px;
+            margin: 20px auto;
         }
         label {
-            display: block;
+            font-weight: bold;
             margin-bottom: 8px;
+            color: #555;
+            display: block;
         }
         input, select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
+            width: calc(100% - 24px);
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         button {
-            padding: 10px;
-            background-color: #28a745;
+            padding: 12px;
+            background-color: #007bff;
             color: white;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #218838;
+            background-color: #0056b3;
         }
         .message {
             color: red;
             font-weight: bold;
+            margin-top: 15px;
+        }
+        #cryptoChart {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -51,7 +81,7 @@
         <label for="username">Usuario:</label>
         <input type="text" id="username" name="username" required>
 
-        <label for="crypto">Criptomoneda:</label>
+        <label for="crypto">Criptomoneda (ej. BTC, ETH):</label>
         <input type="text" id="crypto" name="crypto" required>
 
         <label for="amount">Cantidad:</label>
@@ -81,60 +111,75 @@
 
     <div id="balance-result"></div>
 
+    <!-- Lienzo para el gráfico de la criptomoneda -->
+    <div id="cryptoChartContainer">
+        <canvas id="cryptoChart" width="400" height="200"></canvas>
+    </div>
+
     <script>
-        // Función para realizar trade
-        document.getElementById('trade-form').addEventListener('submit', async function (event) {
-            event.preventDefault();
+        console.log('JavaScript cargado');
 
-            const tradeData = {
-                username: document.getElementById('username').value,
-                crypto: document.getElementById('crypto').value,
-                amount: document.getElementById('amount').value,
-                price: document.getElementById('price').value,
-                type: document.getElementById('type').value
-            };
+        // Función para obtener el precio de la criptomoneda desde CoinMarketCap (ficticia)
+        async function getCryptoPrice(symbol) {
+            console.log(`Obteniendo precio para: ${symbol}`);
+            // Retorna un valor ficticio para el ejemplo
+            return Math.random() * 50000; 
+        }
 
-            try {
-                const response = await fetch('/api/trade', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    },
-                    body: JSON.stringify(tradeData)
-                });
+        // Placeholder para la función de historia de precios (ficticia)
+        async function fetchPriceHistory(symbol) {
+            console.log(`Obteniendo historial de precios para: ${symbol}`);
+            return [100, 102, 105, 103, 104]; // Ejemplo de datos
+        }
 
-                const result = await response.json();
-                document.getElementById('trade-message').textContent = result.message;
-            } catch (error) {
-                console.error('Error:', error);
+        // Función para generar el gráfico de la criptomoneda
+        async function generateCryptoChart(symbol) {
+            const priceHistory = await fetchPriceHistory(symbol);
+            console.log(`Generando gráfico para: ${symbol}`);
+            console.log(`Historial de precios: ${priceHistory}`);
+
+            const ctx = document.getElementById('cryptoChart').getContext('2d');
+
+            if (window.myChart) {
+                window.myChart.destroy(); // Destruye el gráfico anterior si existe
             }
-        });
 
-        // Función para consultar el balance del usuario
-        document.getElementById('balance-form').addEventListener('submit', async function (event) {
-            event.preventDefault();
-
-            const username = document.getElementById('balance-username').value;
-
-            try {
-                const response = await fetch(`/api/balance/${username}`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+            window.myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['1', '2', '3', '4', '5'], // Etiquetas de tiempo
+                    datasets: [{
+                        label: `Precio de ${symbol}`,
+                        data: priceHistory,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
                     }
-                });
-
-                const result = await response.json();
-                if (result.balance !== undefined) {
-                    document.getElementById('balance-result').textContent = `Balance: $${result.balance}`;
-                } else {
-                    document.getElementById('balance-result').textContent = result.message;
                 }
-            } catch (error) {
-                console.error('Error:', error);
+            });
+        }
+
+        // Evento para obtener el precio y generar gráfico al seleccionar una criptomoneda
+        document.getElementById('crypto').addEventListener('blur', async function () {
+            const cryptoSymbol = document.getElementById('crypto').value.toUpperCase();
+            console.log(`Evento blur para criptomoneda: ${cryptoSymbol}`);
+
+            const price = await getCryptoPrice(cryptoSymbol);
+            if (price) {
+                document.getElementById('price').value = price.toFixed(2);
+                generateCryptoChart(cryptoSymbol);
+            } else {
+                document.getElementById('trade-message').textContent = 'Error obteniendo el precio';
             }
         });
+
     </script>
 
 </body>

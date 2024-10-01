@@ -1,13 +1,60 @@
 {% extends "base.html" %}
-{% block content %}
-<div class="form-container">
-    <h2>Iniciar Sesión</h2>
+{% block body %}
+<div class="form-container" style="background-color: red; border-radius: 20px; padding: 20px; max-width: 400px; margin: auto;">
+    <h2 style="color: white;">Iniciar Sesión</h2>
     <form action="{{ url_for('login') }}" method="POST">
-        <label for="nombres">Usuario:</label>
-        <input type="text" name="nombres" required>
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" required>
-        <button type="submit" class="btn-primary">Iniciar Sesión</button>
+        <label for="nombres" style="color: blue;">Usuario:</label>
+        <input type="text" name="nombres" required style="border: 1px solid blue; border-radius: 10px; padding: 10px; width: 100%;">
+        
+        <label for="password" style="color: blue;">Contraseña:</label>
+        <input type="password" name="password" required style="border: 1px solid blue; border-radius: 10px; padding: 10px; width: 100%;">
+        
+        <button type="submit" class="btn-primary" style="background-color: blue; color: white; border-radius: 10px; padding: 10px; width: 100%;">Iniciar Sesión</button>
     </form>
 </div>
+
+<style>
+    body {
+        background: black; /* Fondo negro */
+        font-family: 'Arial', sans-serif;
+    }
+
+    .form-container {
+        background-color: red; /* Fondo rojo */
+        border-radius: 20px;
+        padding: 20px;
+        margin: 20px auto;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+        color: white; /* Títulos en blanco */
+    }
+
+    label {
+        color: blue; /* Etiquetas en azul */
+    }
+
+    input {
+        border: 1px solid blue; /* Bordes de los inputs en azul */
+        border-radius: 10px;
+        padding: 10px;
+        width: 100%;
+        margin-bottom: 15px; /* Espacio entre los campos */
+    }
+
+    button {
+        background-color: blue; /* Botón en azul */
+        color: white; /* Texto del botón en blanco */
+        border-radius: 10px;
+        padding: 10px;
+        width: 100%; /* Botón ocupa todo el ancho */
+    }
+
+    button:hover {
+        background-color: #0056b3; /* Color más claro al pasar el mouse */
+    }
+</style>
 {% endblock %}

@@ -87,7 +87,7 @@ def register():
 
     return render_template('register.html')
 
-
+# Ruta para iniciar sesión y obtener un token
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -109,8 +109,8 @@ def login():
 
     return render_template('login.html')
 
-
-@app.route('/trade', methods=['POST'])
+# Ruta para comprar o vender criptomonedas
+@app.route('/api/trade', methods=['POST'])
 @jwt_required()
 def api_trade():
     data = request.get_json()
@@ -118,14 +118,14 @@ def api_trade():
     if not user:
         return jsonify({'message': 'User not found!'}), 404
 
-   
+    # Validar la operación de compra/venta
     if data['type'] == 'buy':
         cost = float(data['amount']) * float(data['price'])
         if user.balance < cost:
             return jsonify({'message': 'Insufficient funds!'}), 400
         user.balance -= cost
     elif data['type'] == 'sell':
-       
+        # Aquí podrías manejar la lógica para vender y actualizar la cantidad de cripto que el usuario posee.
         pass
 
     # Crear una nueva transacción
@@ -136,7 +136,7 @@ def api_trade():
     return jsonify({'message': 'Trade completed successfully!'})
 
 # Ruta para obtener el balance del usuario
-@app.route('/balance', methods=['GET'])
+@app.route('/api/balance/<username>', methods=['GET'])
 @jwt_required()
 def get_balance(username):
     user = User.query.filter_by(username=username).first()
