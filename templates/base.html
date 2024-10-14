@@ -9,7 +9,6 @@
 <body>
     <header>
         <h1>Dinastía Cripto</h1>
-        <!-- Navbar -->
         <nav>
             <ul>
                 <li><a href="{{ url_for('home') }}">Home</a></li>
@@ -18,10 +17,12 @@
                 <li><a href="{{ url_for('spot') }}">Spot</a></li>
                 <li><a href="{{ url_for('trade') }}">Trade</a></li>
                 <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('mapacal') }}">Mapa de calor</a></li>
+
                 <li>
                     <a href="{{ url_for('register') }}">
-                        <!-- Aquí va el logo -->
-                        <img src="{{ url_for('static', filename='img/register.png') }}" alt="Logo de registro" class="logo"> Register
+                        <img src="{{ url_for('static', filename='img/11.png') }}" alt="Logo de registro" class="logo"> 
+                
                     </a>
                 </li>
             </ul>
@@ -30,7 +31,6 @@
 
     <main>
         {% block body %}
-        <!-- Contenido de la página irá aquí -->
         {% endblock %}
     </main>
 

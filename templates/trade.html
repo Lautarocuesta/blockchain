@@ -75,7 +75,6 @@
 
     <h1>Crypto Trading Platform</h1>
 
-    <!-- Formulario para hacer trade -->
     <form id="trade-form">
         <h2>Realizar Trade</h2>
         <label for="username">Usuario:</label>
@@ -101,7 +100,6 @@
 
     <div id="trade-message" class="message"></div>
 
-    <!-- Formulario para consultar el balance del usuario -->
     <form id="balance-form">
         <h2>Consultar Balance</h2>
         <label for="balance-username">Usuario:</label>
@@ -111,7 +109,6 @@
 
     <div id="balance-result"></div>
 
-    <!-- Lienzo para el gráfico de la criptomoneda -->
     <div id="cryptoChartContainer">
         <canvas id="cryptoChart" width="400" height="200"></canvas>
     </div>
@@ -119,20 +116,16 @@
     <script>
         console.log('JavaScript cargado');
 
-        // Función para obtener el precio de la criptomoneda desde CoinMarketCap (ficticia)
         async function getCryptoPrice(symbol) {
             console.log(`Obteniendo precio para: ${symbol}`);
-            // Retorna un valor ficticio para el ejemplo
             return Math.random() * 50000; 
         }
 
-        // Placeholder para la función de historia de precios (ficticia)
         async function fetchPriceHistory(symbol) {
             console.log(`Obteniendo historial de precios para: ${symbol}`);
-            return [100, 102, 105, 103, 104]; // Ejemplo de datos
+            return [100, 102, 105, 103, 104];
         }
 
-        // Función para generar el gráfico de la criptomoneda
         async function generateCryptoChart(symbol) {
             const priceHistory = await fetchPriceHistory(symbol);
             console.log(`Generando gráfico para: ${symbol}`);
@@ -141,13 +134,13 @@
             const ctx = document.getElementById('cryptoChart').getContext('2d');
 
             if (window.myChart) {
-                window.myChart.destroy(); // Destruye el gráfico anterior si existe
+                window.myChart.destroy(); 
             }
 
             window.myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['1', '2', '3', '4', '5'], // Etiquetas de tiempo
+                    labels: ['1', '2', '3', '4', '5'], 
                     datasets: [{
                         label: `Precio de ${symbol}`,
                         data: priceHistory,
@@ -166,7 +159,6 @@
             });
         }
 
-        // Evento para obtener el precio y generar gráfico al seleccionar una criptomoneda
         document.getElementById('crypto').addEventListener('blur', async function () {
             const cryptoSymbol = document.getElementById('crypto').value.toUpperCase();
             console.log(`Evento blur para criptomoneda: ${cryptoSymbol}`);

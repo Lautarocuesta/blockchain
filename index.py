@@ -4,45 +4,40 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = 'patri'
 
-# Configuración de la base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://u6qortomnaflcybt:Y7A2emdQB293Z2m6W1jq@bz5yijfabuhihultlpar-mysql.services.clever-cloud.com:3306/bz5yijfabuhihultlpar'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JWT_SECRET_KEY'] = 'super-secret-key'  # Cambia esto por una clave segura
+app.config['JWT_SECRET_KEY'] = 'patri'
 
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
 
-# Modelo de Usuario
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
-    balance = db.Column(db.Float, default=500.0)  # Saldo inicial en USDT
+    balance = db.Column(db.Float, default=500.0)
 
     def __repr__(self):
         return f'<User {self.username}>'
 
-# Modelo de Transacción
 class Transaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    crypto = db.Column(db.String(50), nullable=False)  # BTC, ETH, etc.
+    crypto = db.Column(db.String(50), nullable=False) 
     amount = db.Column(db.Float, nullable=False)
     price = db.Column(db.Float, nullable=False)
-    type = db.Column(db.String(10), nullable=False)  # Buy o Sell
+    type = db.Column(db.String(10), nullable=False) 
 
     def __repr__(self):
         return f'<Transaction {self.id} - {self.crypto}>'
 
-# Ruta base
 @app.route('/')
 def base():
     return render_template('home.html')
 
-# Vistas del frontend
 @app.route('/home')
 def home():
     return render_template('home.html')
@@ -62,8 +57,10 @@ def spot():
 @app.route('/trade')
 def trade():
     return render_template('trade.html')
+@app.route('/mapacal')
+def mapacal():
+    return render_template('mapacal.html')
 
-# Ruta para registrar un nuevo usuario
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -87,7 +84,6 @@ def register():
 
     return render_template('register.html')
 
-# Ruta para iniciar sesión y obtener un token
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -109,7 +105,6 @@ def login():
 
     return render_template('login.html')
 
-# Ruta para comprar o vender criptomonedas
 @app.route('/api/trade', methods=['POST'])
 @jwt_required()
 def api_trade():
@@ -118,24 +113,20 @@ def api_trade():
     if not user:
         return jsonify({'message': 'User not found!'}), 404
 
-    # Validar la operación de compra/venta
     if data['type'] == 'buy':
         cost = float(data['amount']) * float(data['price'])
         if user.balance < cost:
             return jsonify({'message': 'Insufficient funds!'}), 400
         user.balance -= cost
     elif data['type'] == 'sell':
-        # Aquí podrías manejar la lógica para vender y actualizar la cantidad de cripto que el usuario posee.
         pass
 
-    # Crear una nueva transacción
     new_transaction = Transaction(user_id=user.id, crypto=data['crypto'], amount=data['amount'], price=data['price'], type=data['type'])
     db.session.add(new_transaction)
     db.session.commit()
 
     return jsonify({'message': 'Trade completed successfully!'})
 
-# Ruta para obtener el balance del usuario
 @app.route('/api/balance/<username>', methods=['GET'])
 @jwt_required()
 def get_balance(username):
@@ -146,5 +137,5 @@ def get_balance(username):
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Crear tablas si no existen
+        db.create_all()
     app.run(debug=True)

@@ -3,19 +3,20 @@
 {% block title %}Cómo Crear Tu Propia Criptomoneda{% endblock %}
 
 {% block body %}
-    <h1>Cómo Crear Tu Propia Criptomoneda: "Cripto"</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-5" style="color: #e63946;">Cómo Crear Tu Propia Criptomoneda: "Cripto"</h1>
     
-    <div class="step">
-        <h2>Paso 1: Configura MetaMask</h2>
+    <div class="step mb-4">
+        <h2 class="step-title">Paso 1: Configura MetaMask</h2>
         <p>MetaMask es una extensión del navegador que actúa como un puente hacia la red Ethereum. Instálala desde el <a href="https://metamask.io/" target="_blank">sitio web de MetaMask</a> y configura tu cuenta.</p>
     </div>
 
-    <div class="step">
-        <h2>Paso 2: Escribe el Contrato de Tu Token</h2>
+    <div class="step mb-4">
+        <h2 class="step-title">Paso 2: Escribe el Contrato de Tu Token</h2>
         <p>Usaremos la blockchain de Ethereum y el lenguaje Solidity para escribir un contrato inteligente para nuestro token. Ve a <a href="https://remix.ethereum.org/" target="_blank">Remix IDE</a> y crea un archivo nuevo con el siguiente código:</p>
         
-        <div class="code-block">
-            <pre>
+        <div class="code-block p-3 rounded" style="background-color: #f8f9fa; border-left: 4px solid #e63946;">
+            <pre style="font-size: 14px; line-height: 1.5;">
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
@@ -61,12 +62,11 @@ contract CriptoToken {
 }
             </pre>
         </div>
-
-        <p>Este código define un token simple llamado "Cripto" con el símbolo "CRP" y una oferta de 1 millón de tokens.</p>
+        <p class="mt-2">Este código define un token simple llamado "Cripto" con el símbolo "CRP" y una oferta de 1 millón de tokens.</p>
     </div>
 
-    <div class="step">
-        <h2>Paso 3: Despliega Tu Token en Ethereum</h2>
+    <div class="step mb-4">
+        <h2 class="step-title">Paso 3: Despliega Tu Token en Ethereum</h2>
         <p>Una vez que hayas escrito tu contrato de token, desplíégalo utilizando Remix IDE. Aquí te explico cómo hacerlo:</p>
         <ul>
             <li>En Remix, compila tu contrato haciendo clic en la pestaña “Solidity Compiler” y seleccionando tu archivo.</li>
@@ -75,8 +75,8 @@ contract CriptoToken {
         </ul>
     </div>
 
-    <div class="step">
-        <h2>Paso 4: Interactúa con Tu Token</h2>
+    <div class="step mb-4">
+        <h2 class="step-title">Paso 4: Interactúa con Tu Token</h2>
         <p>Una vez desplegado, puedes interactuar con tu token usando funciones como:</p>
         <ul>
             <li><strong>transfer:</strong> Para enviar tokens a otras direcciones.</li>
@@ -85,13 +85,58 @@ contract CriptoToken {
         </ul>
     </div>
 
-    <div class="step">
-        <h2>Paso 5: Agrega Tu Token a MetaMask</h2>
+    <div class="step mb-4">
+        <h2 class="step-title">Paso 5: Agrega Tu Token a MetaMask</h2>
         <p>Después del despliegue, puedes agregar tu nuevo token "Cripto" a MetaMask copiando la dirección del contrato y usando la función "Agregar Token" en MetaMask.</p>
     </div>
 
-    <div class="step">
-        <h2>Paso 6: Usa Tu Token</h2>
+    <div class="step mb-4">
+        <h2 class="step-title">Paso 6: Usa Tu Token</h2>
         <p>Tu token ahora está activo en la red Ethereum. Puedes transferirlo a otros usuarios, integrarlo con dApps o incluso listarlo en intercambios descentralizados (DEXs) como Uniswap.</p>
     </div>
+</div>
+
+<style>
+    body {
+        background-color: #f0f2f5;
+    }
+    
+    h1 {
+      
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+    }
+
+    .step-title {
+        color: #264653;
+        font-family: 'Poppins', sans-serif;
+        font-size: 24px;
+    }
+
+    p, ul {
+        font-family: 'Roboto', sans-serif;
+        color: #495057;
+    }
+
+    ul {
+        margin-left: 20px;
+    }
+
+    .code-block {
+        font-family: 'Courier New', monospace;
+        font-size: 15px;
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    a {
+        color: #e63946;
+        text-decoration: underline;
+    }
+    
+    a:hover {
+        color: #d62828;
+    }
+</style>
 {% endblock %}
